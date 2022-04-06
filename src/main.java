@@ -32,11 +32,16 @@ public class main {
         List<String> td = transactions.stream().map(tr -> tr.getTrader().getCity()).distinct().collect(toList());
         System.out.println(td);
 //      3. 케임브리지에서 근무하는 모든 거래자를 찾아서 이름순으로 정렬하시오.
-        List<Trader> traders = transactions.stream().filter(tr -> tr.getTrader().getCity().equals("Cambridge")).map(trade -> trade.getTrader().getName()).reduce((a,c)->a+c);
+        List<String> traders = transactions.stream().filter(tr -> tr.getTrader().getCity().equals("Cambridge")).map(trade -> trade.getTrader().getName()).sorted().collect(toList());
+        System.out.println(traders);
 //      4. 모든 거래자의 이름을 알파벳순으로 정렬해서 반환하시오.
 //      5. 밀라노에 거래자가 있는가?
+        List<String> ts = transactions.stream().filter(tr -> tr.getTrader().getCity().equals("Milan")).map(p -> p.getTrader().getName()).collect(toList());
+        System.out.println(ts);
 //      6. 케임브리지에 거주하는 거래자의 모든 트랜잭션값을 출력하시오.
+        transactions.stream().filter(city->city.getTrader().getCity().equals("Cambridge")).map(Transaction::getValue).forEach(System.out::println);
 //      7. 전체 트랜잭션 중 최댓값은 얼마인가?
+        Optional<Integer> maxs = transactions.stream().map(Transaction::getYear).reduce(Integer::max);
 //      8. 전체 트랜잭션 중 최솟값은 얼마인가
     }
 }
