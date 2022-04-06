@@ -1,10 +1,7 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 /**
  * Created by wgPark on 2022-04-05.
@@ -43,6 +40,23 @@ public class main {
 //      7. 전체 트랜잭션 중 최댓값은 얼마인가?
         Optional<Integer> maxs = transactions.stream().map(Transaction::getYear).reduce(Integer::max);
 //      8. 전체 트랜잭션 중 최솟값은 얼마인가
+
+
+        System.out.println("total:");
+        double total = transactions.stream().collect(averagingInt(Transaction::getValue));
+        System.out.println(total);
+
+        IntSummaryStatistics menuSt = transactions.stream().collect(summarizingInt(Transaction::getValue));
+        System.out.println(menuSt.getMax());
+
+        String transString = transactions.stream().map(tz -> tz.getTrader().getName()).distinct().sorted().collect(joining(","));
+        System.out.println(transString);
+
+        int totalvalues = transactions.stream().collect(reducing(0,Transaction::getValue,Integer::sum));
+        System.out.println(totalvalues);
+
+        Map<Trader,List<Transaction>> tes = transactions.stream().collect(groupingBy(Transaction::getTrader,filtering(trans -> trans.getValue()>50,toList())));
+        System.out.println(tes);
     }
 }
 
